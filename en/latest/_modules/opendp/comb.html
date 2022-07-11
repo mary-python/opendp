@@ -358,7 +358,7 @@
     <span class="n">transformation1</span><span class="p">:</span> <span class="n">Transformation</span><span class="p">,</span>
     <span class="n">transformation0</span><span class="p">:</span> <span class="n">Transformation</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Transformation</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Construct the functional composition (`transformation1` ○ `transformation0`). Returns a Tranformation.</span>
+    <span class="sd">&quot;&quot;&quot;Construct the functional composition (`transformation1` ○ `transformation0`). Returns a Transformation.</span>
 <span class="sd">    </span>
 <span class="sd">    :param transformation1: outer transformation</span>
 <span class="sd">    :type transformation1: Transformation</span>
@@ -386,34 +386,28 @@
 
 
 <div class="viewcode-block" id="make_basic_composition"><a class="viewcode-back" href="../../api/python/opendp.comb.html#opendp.comb.make_basic_composition">[docs]</a><span class="k">def</span> <span class="nf">make_basic_composition</span><span class="p">(</span>
-    <span class="n">measurement0</span><span class="p">:</span> <span class="n">Measurement</span><span class="p">,</span>
-    <span class="n">measurement1</span><span class="p">:</span> <span class="n">Measurement</span>
+    <span class="n">measurements</span><span class="p">:</span> <span class="n">Any</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Measurement</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Construct the DP composition (`measurement0`, `measurement1`). Returns a Measurement.</span>
+    <span class="sd">&quot;&quot;&quot;Construct the DP composition [`measurement0`, `measurement1`, ...]. Returns a Measurement.</span>
 <span class="sd">    </span>
-<span class="sd">    :param measurement0: The left member of the resulting 2-tuple.</span>
-<span class="sd">    :type measurement0: Measurement</span>
-<span class="sd">    :param measurement1: The right member of the resulting 2-tuple.</span>
-<span class="sd">    :type measurement1: Measurement</span>
+<span class="sd">    :param measurements: A list of measurements to compose.</span>
+<span class="sd">    :type measurements: Any</span>
 <span class="sd">    :return: Measurement representing the composed transformations.</span>
 <span class="sd">    :rtype: Measurement</span>
 <span class="sd">    :raises AssertionError: if an argument&#39;s type differs from the expected type</span>
 <span class="sd">    :raises UnknownTypeError: if a type-argument fails to parse</span>
 <span class="sd">    :raises OpenDPException: packaged error from the core OpenDP library</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">assert_features</span><span class="p">(</span><span class="s2">&quot;contrib&quot;</span><span class="p">)</span>
-    
     <span class="c1"># No type arguments to standardize.</span>
     <span class="c1"># Convert arguments to c types.</span>
-    <span class="n">measurement0</span> <span class="o">=</span> <span class="n">py_to_c</span><span class="p">(</span><span class="n">measurement0</span><span class="p">,</span> <span class="n">c_type</span><span class="o">=</span><span class="n">Measurement</span><span class="p">)</span>
-    <span class="n">measurement1</span> <span class="o">=</span> <span class="n">py_to_c</span><span class="p">(</span><span class="n">measurement1</span><span class="p">,</span> <span class="n">c_type</span><span class="o">=</span><span class="n">Measurement</span><span class="p">)</span>
+    <span class="n">measurements</span> <span class="o">=</span> <span class="n">py_to_c</span><span class="p">(</span><span class="n">measurements</span><span class="p">,</span> <span class="n">c_type</span><span class="o">=</span><span class="n">AnyObjectPtr</span><span class="p">,</span> <span class="n">type_name</span><span class="o">=</span><span class="n">RuntimeType</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="s1">&#39;Vec&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;AnyMeasurementPtr&quot;</span><span class="p">]))</span>
     
     <span class="c1"># Call library function.</span>
     <span class="n">function</span> <span class="o">=</span> <span class="n">lib</span><span class="o">.</span><span class="n">opendp_comb__make_basic_composition</span>
-    <span class="n">function</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">Measurement</span><span class="p">,</span> <span class="n">Measurement</span><span class="p">]</span>
+    <span class="n">function</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnyObjectPtr</span><span class="p">]</span>
     <span class="n">function</span><span class="o">.</span><span class="n">restype</span> <span class="o">=</span> <span class="n">FfiResult</span>
     
-    <span class="k">return</span> <span class="n">c_to_py</span><span class="p">(</span><span class="n">unwrap</span><span class="p">(</span><span class="n">function</span><span class="p">(</span><span class="n">measurement0</span><span class="p">,</span> <span class="n">measurement1</span><span class="p">),</span> <span class="n">Measurement</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">c_to_py</span><span class="p">(</span><span class="n">unwrap</span><span class="p">(</span><span class="n">function</span><span class="p">(</span><span class="n">measurements</span><span class="p">),</span> <span class="n">Measurement</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="make_population_amplification"><a class="viewcode-back" href="../../api/python/opendp.comb.html#opendp.comb.make_population_amplification">[docs]</a><span class="k">def</span> <span class="nf">make_population_amplification</span><span class="p">(</span>

@@ -429,8 +429,12 @@
         <span class="k">return</span> <span class="n">RuntimeType</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">measurement_input_carrier_type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">opendp.core</span> <span class="kn">import</span> <span class="n">_measurement_free</span>
-        <span class="n">_measurement_free</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">opendp.core</span> <span class="kn">import</span> <span class="n">_measurement_free</span>
+            <span class="n">_measurement_free</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="c1"># ImportError: sys.meta_path is None, Python is likely shutting down</span>
+            <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="Transformation"><a class="viewcode-back" href="../../api/python/opendp.mod.html#opendp.mod.Transformation">[docs]</a><span class="k">class</span> <span class="nc">Transformation</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">AnyTransformation</span><span class="p">)):</span>
@@ -563,6 +567,7 @@
             <span class="kn">from</span> <span class="nn">opendp.core</span> <span class="kn">import</span> <span class="n">_transformation_free</span>
             <span class="n">_transformation_free</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="c1"># ImportError: sys.meta_path is None, Python is likely shutting down</span>
             <span class="k">pass</span></div>
 
 
