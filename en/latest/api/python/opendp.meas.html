@@ -422,7 +422,7 @@ The privacy relation is based on the analytic gaussian mechanism.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="opendp.meas.make_base_gaussian">
-<span class="sig-prename descclassname"><span class="pre">opendp.meas.</span></span><span class="sig-name descname"><span class="pre">make_base_gaussian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">D</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'AllDomain&lt;T&gt;'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/opendp/meas.html#make_base_gaussian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#opendp.meas.make_base_gaussian" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">opendp.meas.</span></span><span class="sig-name descname"><span class="pre">make_base_gaussian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">D</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'AllDomain&lt;T&gt;'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">MO</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'SmoothedMaxDivergence&lt;T&gt;'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/opendp/meas.html#make_base_gaussian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#opendp.meas.make_base_gaussian" title="Permalink to this definition">#</a></dt>
 <dd><p>Make a Measurement that adds noise from the gaussian(<cite>scale</cite>) distribution to the input.
 Adjust D to noise vector-valued data.
 The output epsilon may be no greater than one.
@@ -432,6 +432,7 @@ Use make_base_analytic_gaussian for a tighter analysis that supports epsilon &gt
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>scale</strong> – noise scale parameter for the gaussian distribution. <cite>scale</cite> == standard_deviation.</p></li>
 <li><p><strong>D</strong> (<a class="reference internal" href="../../user/supporting-elements.html#runtimetypedescriptor"><span class="std std-ref">Type Arguments</span></a>) – Domain of the data type to be privatized. Valid values are VectorDomain&lt;AllDomain&lt;T&gt;&gt; or AllDomain&lt;T&gt;</p></li>
+<li><p><strong>MO</strong> (<a class="reference internal" href="../../user/supporting-elements.html#runtimetypedescriptor"><span class="std std-ref">Type Arguments</span></a>) – Output measure. Valid values are SmoothedMaxDivergence&lt;T&gt; or ZeroConcentratedDivergence&lt;T&gt;</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
