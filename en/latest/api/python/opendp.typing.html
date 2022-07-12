@@ -591,6 +591,36 @@ RuntimeTypes containing UnknownType cannot be used in FFI, but still pass Runtim
 <span class="sig-prename descclassname"><span class="pre">opendp.typing.</span></span><span class="sig-name descname"><span class="pre">get_first</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/opendp/typing.html#get_first"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#opendp.typing.get_first" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="opendp.typing.set_default_float_type">
+<span class="sig-prename descclassname"><span class="pre">opendp.typing.</span></span><span class="sig-name descname"><span class="pre">set_default_float_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/opendp/typing.html#set_default_float_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#opendp.typing.set_default_float_type" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the default float type throughout the library.
+This function is particularly useful when building computation chains with constructors.
+When you build a computation chain, any unspecified float types default to this float type.</p>
+<p>The default float type is f64.
+:params T: must be one of [f32, f64]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>T</strong> (<em>Union</em><em>[</em><a class="reference internal" href="#opendp.typing.RuntimeType" title="opendp.typing.RuntimeType"><em>opendp.typing.RuntimeType</em></a><em>, </em><em>_GenericAlias</em><em>, </em><em>str</em><em>, </em><em>Type</em><em>[</em><em>Union</em><em>[</em><em>List</em><em>, </em><em>Tuple</em><em>, </em><em>int</em><em>, </em><em>float</em><em>, </em><em>str</em><em>, </em><em>bool</em><em>]</em><em>]</em><em>, </em><em>tuple</em><em>]</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="opendp.typing.set_default_int_type">
+<span class="sig-prename descclassname"><span class="pre">opendp.typing.</span></span><span class="sig-name descname"><span class="pre">set_default_int_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/opendp/typing.html#set_default_int_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#opendp.typing.set_default_int_type" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the default integer type throughout the library.
+This function is particularly useful when building computation chains with constructors.
+When you build a computation chain, any unspecified integer types default to this int type.</p>
+<p>The default int type is i32.
+:params T: must be one of [u8, u16, u32, u64, u128, usize, i8, i16, i32, i64, i128, isize]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>T</strong> (<em>Union</em><em>[</em><a class="reference internal" href="#opendp.typing.RuntimeType" title="opendp.typing.RuntimeType"><em>opendp.typing.RuntimeType</em></a><em>, </em><em>_GenericAlias</em><em>, </em><em>str</em><em>, </em><em>Type</em><em>[</em><em>Union</em><em>[</em><em>List</em><em>, </em><em>Tuple</em><em>, </em><em>int</em><em>, </em><em>float</em><em>, </em><em>str</em><em>, </em><em>bool</em><em>]</em><em>]</em><em>, </em><em>tuple</em><em>]</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

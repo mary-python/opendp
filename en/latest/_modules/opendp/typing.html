@@ -364,6 +364,37 @@
 <span class="p">]</span>
 
 
+<div class="viewcode-block" id="set_default_int_type"><a class="viewcode-back" href="../../api/python/opendp.typing.html#opendp.typing.set_default_int_type">[docs]</a><span class="k">def</span> <span class="nf">set_default_int_type</span><span class="p">(</span><span class="n">T</span><span class="p">:</span> <span class="n">RuntimeTypeDescriptor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Set the default integer type throughout the library.</span>
+<span class="sd">    This function is particularly useful when building computation chains with constructors.</span>
+<span class="sd">    When you build a computation chain, any unspecified integer types default to this int type.</span>
+
+<span class="sd">    The default int type is i32.</span>
+<span class="sd">    :params T: must be one of [u8, u16, u32, u64, u128, usize, i8, i16, i32, i64, i128, isize]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">equivalence_class</span> <span class="o">=</span> <span class="n">ATOM_EQUIVALENCE_CLASSES</span><span class="p">[</span><span class="n">ELEMENTARY_TYPES</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span>
+    <span class="k">assert</span> <span class="n">T</span> <span class="ow">in</span> <span class="n">equivalence_class</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;T must be one of </span><span class="si">{</span><span class="n">equivalence_class</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="n">ATOM_EQUIVALENCE_CLASSES</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="n">ATOM_EQUIVALENCE_CLASSES</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">ELEMENTARY_TYPES</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span>
+    <span class="n">ELEMENTARY_TYPES</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">T</span></div>
+
+
+<div class="viewcode-block" id="set_default_float_type"><a class="viewcode-back" href="../../api/python/opendp.typing.html#opendp.typing.set_default_float_type">[docs]</a><span class="k">def</span> <span class="nf">set_default_float_type</span><span class="p">(</span><span class="n">T</span><span class="p">:</span> <span class="n">RuntimeTypeDescriptor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Set the default float type throughout the library.</span>
+<span class="sd">    This function is particularly useful when building computation chains with constructors.</span>
+<span class="sd">    When you build a computation chain, any unspecified float types default to this float type.</span>
+
+<span class="sd">    The default float type is f64.</span>
+<span class="sd">    :params T: must be one of [f32, f64]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">equivalence_class</span> <span class="o">=</span> <span class="n">ATOM_EQUIVALENCE_CLASSES</span><span class="p">[</span><span class="n">ELEMENTARY_TYPES</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span>
+    <span class="k">assert</span> <span class="n">T</span> <span class="ow">in</span> <span class="n">equivalence_class</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;T must be a float type in </span><span class="si">{</span><span class="n">equivalence_class</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="n">ATOM_EQUIVALENCE_CLASSES</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="n">ATOM_EQUIVALENCE_CLASSES</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">ELEMENTARY_TYPES</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span>
+    <span class="n">ELEMENTARY_TYPES</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">T</span></div>
+
+
 <div class="viewcode-block" id="RuntimeType"><a class="viewcode-back" href="../../api/python/opendp.typing.html#opendp.typing.RuntimeType">[docs]</a><span class="k">class</span> <span class="nc">RuntimeType</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Utility for validating, manipulating, inferring and parsing/normalizing type information.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -475,6 +506,10 @@
             <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">start</span> <span class="o">&lt;</span> <span class="n">end</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">type_name</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">RuntimeType</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">_parse_args</span><span class="p">(</span><span class="n">type_name</span><span class="p">[</span><span class="n">start</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span> <span class="n">end</span><span class="p">],</span> <span class="n">generics</span><span class="o">=</span><span class="n">generics</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">start</span> <span class="o">==</span> <span class="n">end</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">type_name</span> <span class="o">==</span> <span class="s2">&quot;int&quot;</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">ELEMENTARY_TYPES</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">type_name</span> <span class="o">==</span> <span class="s2">&quot;float&quot;</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">ELEMENTARY_TYPES</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
                 <span class="k">return</span> <span class="n">type_name</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">type_name</span><span class="p">,</span> <span class="n">Hashable</span><span class="p">)</span> <span class="ow">and</span> <span class="n">type_name</span> <span class="ow">in</span> <span class="n">ELEMENTARY_TYPES</span><span class="p">:</span>
@@ -514,10 +549,16 @@
             <span class="k">return</span> <span class="n">RuntimeType</span><span class="p">(</span><span class="s1">&#39;Tuple&#39;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">infer</span><span class="p">,</span> <span class="n">public_example</span><span class="p">)))</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">public_example</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">RuntimeType</span><span class="p">(</span><span class="s1">&#39;Vec&#39;</span><span class="p">,</span> <span class="p">[</span>
-                <span class="bp">cls</span><span class="o">.</span><span class="n">infer</span><span class="p">(</span><span class="n">public_example</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">if</span> <span class="n">public_example</span> <span class="k">else</span> <span class="n">UnknownType</span><span class="p">(</span>
-                    <span class="s2">&quot;cannot infer atomic type of empty list&quot;</span><span class="p">)</span>
-            <span class="p">])</span>
+            <span class="k">if</span> <span class="n">public_example</span><span class="p">:</span>
+                <span class="n">inner_type</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">infer</span><span class="p">(</span><span class="n">public_example</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">inner</span> <span class="ow">in</span> <span class="n">public_example</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+                    <span class="n">other_type</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">infer</span><span class="p">(</span><span class="n">inner</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">other_type</span> <span class="o">!=</span> <span class="n">inner_type</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;vectors must be homogeneously typed, found </span><span class="si">{</span><span class="n">inner_type</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">other_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">inner_type</span> <span class="o">=</span> <span class="n">UnknownType</span><span class="p">(</span><span class="s2">&quot;cannot infer atomic type of empty list&quot;</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">RuntimeType</span><span class="p">(</span><span class="s1">&#39;Vec&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">inner_type</span><span class="p">])</span>
 
         <span class="k">if</span> <span class="n">np</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">public_example</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">public_example</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -683,20 +724,20 @@
 
 <span class="n">Vec</span> <span class="o">=</span> <span class="n">Carrier</span><span class="p">(</span><span class="s1">&#39;Vec&#39;</span><span class="p">)</span>
 <span class="n">HashMap</span> <span class="o">=</span> <span class="n">Carrier</span><span class="p">(</span><span class="s1">&#39;HashMap&#39;</span><span class="p">)</span>
-<span class="n">i8</span> <span class="o">=</span> <span class="n">RuntimeType</span><span class="p">(</span><span class="s1">&#39;i8&#39;</span><span class="p">)</span>
-<span class="n">i16</span> <span class="o">=</span> <span class="n">RuntimeType</span><span class="p">(</span><span class="s1">&#39;i16&#39;</span><span class="p">)</span>
-<span class="n">i32</span> <span class="o">=</span> <span class="n">RuntimeType</span><span class="p">(</span><span class="s1">&#39;i32&#39;</span><span class="p">)</span>
-<span class="n">i64</span> <span class="o">=</span> <span class="n">RuntimeType</span><span class="p">(</span><span class="s1">&#39;i64&#39;</span><span class="p">)</span>
-<span class="n">i128</span> <span class="o">=</span> <span class="n">RuntimeType</span><span class="p">(</span><span class="s1">&#39;i128&#39;</span><span class="p">)</span>
-<span class="n">isize</span> <span class="o">=</span> <span class="n">RuntimeType</span><span class="p">(</span><span class="s1">&#39;isize&#39;</span><span class="p">)</span>
-<span class="n">u8</span> <span class="o">=</span> <span class="n">RuntimeType</span><span class="p">(</span><span class="s1">&#39;u8&#39;</span><span class="p">)</span>
-<span class="n">u16</span> <span class="o">=</span> <span class="n">RuntimeType</span><span class="p">(</span><span class="s1">&#39;u16&#39;</span><span class="p">)</span>
-<span class="n">u32</span> <span class="o">=</span> <span class="n">RuntimeType</span><span class="p">(</span><span class="s1">&#39;u32&#39;</span><span class="p">)</span>
-<span class="n">u64</span> <span class="o">=</span> <span class="n">RuntimeType</span><span class="p">(</span><span class="s1">&#39;u64&#39;</span><span class="p">)</span>
-<span class="n">u128</span> <span class="o">=</span> <span class="n">RuntimeType</span><span class="p">(</span><span class="s1">&#39;u128&#39;</span><span class="p">)</span>
-<span class="n">usize</span> <span class="o">=</span> <span class="n">RuntimeType</span><span class="p">(</span><span class="s1">&#39;usize&#39;</span><span class="p">)</span>
-<span class="n">f32</span> <span class="o">=</span> <span class="n">RuntimeType</span><span class="p">(</span><span class="s1">&#39;f32&#39;</span><span class="p">)</span>
-<span class="n">f64</span> <span class="o">=</span> <span class="n">RuntimeType</span><span class="p">(</span><span class="s1">&#39;f64&#39;</span><span class="p">)</span>
+<span class="n">i8</span> <span class="o">=</span> <span class="s1">&#39;i8&#39;</span>
+<span class="n">i16</span> <span class="o">=</span> <span class="s1">&#39;i16&#39;</span>
+<span class="n">i32</span> <span class="o">=</span> <span class="s1">&#39;i32&#39;</span>
+<span class="n">i64</span> <span class="o">=</span> <span class="s1">&#39;i64&#39;</span>
+<span class="n">i128</span> <span class="o">=</span> <span class="s1">&#39;i128&#39;</span>
+<span class="n">isize</span> <span class="o">=</span> <span class="s1">&#39;isize&#39;</span>
+<span class="n">u8</span> <span class="o">=</span> <span class="s1">&#39;u8&#39;</span>
+<span class="n">u16</span> <span class="o">=</span> <span class="s1">&#39;u16&#39;</span>
+<span class="n">u32</span> <span class="o">=</span> <span class="s1">&#39;u32&#39;</span>
+<span class="n">u64</span> <span class="o">=</span> <span class="s1">&#39;u64&#39;</span>
+<span class="n">u128</span> <span class="o">=</span> <span class="s1">&#39;u128&#39;</span>
+<span class="n">usize</span> <span class="o">=</span> <span class="s1">&#39;usize&#39;</span>
+<span class="n">f32</span> <span class="o">=</span> <span class="s1">&#39;f32&#39;</span>
+<span class="n">f64</span> <span class="o">=</span> <span class="s1">&#39;f64&#39;</span>
 
 
 <div class="viewcode-block" id="Domain"><a class="viewcode-back" href="../../api/python/opendp.typing.html#opendp.typing.Domain">[docs]</a><span class="k">class</span> <span class="nc">Domain</span><span class="p">(</span><span class="n">RuntimeType</span><span class="p">):</span>
