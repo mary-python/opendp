@@ -428,7 +428,7 @@
 <h3>Platforms<a class="headerlink" href="#platforms" title="Permalink to this headline">#</a></h3>
 <p>OpenDP is built for the following platforms:</p>
 <ul class="simple">
-<li><p>Python 3.6-3.9</p></li>
+<li><p>Python 3.6-3.10</p></li>
 <li><p>Linux, x86 64-bit, versions compatible with <a class="reference external" href="https://github.com/pypa/manylinux">manylinux</a> (others may work)</p></li>
 <li><p>macOS, x86 64-bit, version 10.13 or later</p></li>
 <li><p>Windows, x86 64-bit, version 7 or later</p></li>
@@ -477,37 +477,7 @@ Continuous noise samplers require explicit opt-in and are behind the “floating
 <h3>Building OpenDP from Source<a class="headerlink" href="#building-opendp-from-source" title="Permalink to this headline">#</a></h3>
 <p>Under special circumstances, it may be necessary to install OpenDP directly from the source files.
 This is only required if you want to build OpenDP from scratch, or if you’re interested in <a class="reference internal" href="../developer/index.html"><span class="doc">contributing to OpenDP</span></a>.</p>
-<p>For this to work, you’ll need some prerequisites:</p>
-<ul class="simple">
-<li><p>The <a class="reference external" href="https://www.rust-lang.org/tools/install">Rust toolchain</a>, edition 2018.</p></li>
-<li><p>Python, version 3.6 or higher.</p></li>
-<li><p>Python package <a class="reference external" href="https://docs.pytest.org/en/stable/">pytest</a> (optional but recommended).</p></li>
-</ul>
-<p>Assuming your base environment is ready, start by cloning the <a class="reference external" href="https://github.com/opendp/opendp">opendp git repo</a>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1">git clone git@github.com:opendp/opendp.git</span>
-<span class="prompt1"><span class="nb">cd</span> opendp</span>
-</pre></div></div><p>If you get the error <code class="docutils literal notranslate"><span class="pre">git&#64;github.com:</span> <span class="pre">Permission</span> <span class="pre">denied</span> <span class="pre">(publickey)</span></code>,
-then either <a class="reference external" href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account">set up an SSH key</a>
-or clone with https: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/opendp/opendp.git</span></code>.</p>
-<p>Next, you’ll need to build the Rust binaries. This is done by running <code class="docutils literal notranslate"><span class="pre">cargo</span> <span class="pre">build</span></code> in the <code class="docutils literal notranslate"><span class="pre">rust</span></code> subdirectory of the repo:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1"><span class="nb">cd</span> rust</span>
-<span class="prompt1">cargo build</span>
-</pre></div></div><div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>If you’re using Windows, you may encounter problems when <code class="docutils literal notranslate"><span class="pre">cargo</span></code> tries to compile some dependencies. There are detailed instructions and scripts for dealing with this in the <a class="reference external" href="https://github.com/opendp/opendp/tree/main/windows">windows subdirectory</a> of the repository.</p>
-</div>
-<p>This will compile a debug version of the OpenDP shared library, placing it in the directory <code class="docutils literal notranslate"><span class="pre">opendp/rust/target/debug</span></code>. (The specific name of the library file will vary depending on your platform.)</p>
-<p>Finally, you can create a local Python package that incorporates your new shared library. This is possible by using <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code> with the <code class="docutils literal notranslate"><span class="pre">-e</span></code> option in the <code class="docutils literal notranslate"><span class="pre">python</span></code> subdirectory:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1"><span class="nb">cd</span> ../python</span>
-<span class="prompt1">pip install -e .</span>
-</pre></div></div><p>At this point, you should be able use OpenDP as a locally installed package. You can test that things are working by running the OpenDP test suite, using <code class="docutils literal notranslate"><span class="pre">pytest</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1">pip install opendp</span>
-<span class="prompt1"></span>
-<span class="prompt1"><span class="c1"># Still in python subdirectory</span></span>
-<span class="prompt1">pytest</span>
-</pre></div></div><p>If everything has gone well, you’ll see a bunch of output, then a line similar to this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span class="prompt1"><span class="o">==================</span> <span class="m">57</span> passed <span class="k">in</span> <span class="m">1</span>.02s <span class="o">==================</span></span>
-</pre></div></div><p>This is just a quick overview of building OpenDP. If you’re interested in porting OpenDP to a different platform, we’d be delighted to get your help; please <a class="reference internal" href="../contact.html"><span class="doc">contact us</span></a>!</p>
+<p>There is a thorough guide to building from source in the <a class="reference internal" href="../developer/development-environment.html"><span class="doc">Development Environment</span></a> documentation.</p>
 </section>
 </section>
 <section id="hello-opendp">

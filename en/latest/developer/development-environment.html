@@ -379,16 +379,6 @@
   </a>
   <ul class="visible nav section-nav flex-column">
    <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#install-rust">
-     Install Rust
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#install-python">
-     Install Python
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#clone-the-opendp-repo">
      Clone the OpenDP Repo
     </a>
@@ -396,13 +386,13 @@
   </ul>
  </li>
  <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#building-opendp">
-   Building OpenDP
+  <a class="reference internal nav-link" href="#build-opendp">
+   Build OpenDP
   </a>
   <ul class="visible nav section-nav flex-column">
    <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#install-python-dependencies">
-     Install Python Dependencies
+    <a class="reference internal nav-link" href="#python-setup">
+     Python Setup
     </a>
    </li>
    <li class="toc-h2 nav-item toc-entry">
@@ -425,8 +415,8 @@
   </ul>
  </li>
  <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#tooling">
-   Tooling
+  <a class="reference internal nav-link" href="#developer-tooling">
+   Developer Tooling
   </a>
  </li>
 </ul>
@@ -451,17 +441,13 @@
   <section id="development-environment">
 <span id="id1"></span><h1>Development Environment<a class="headerlink" href="#development-environment" title="Permalink to this headline">#</a></h1>
 <p>Follow the steps below to get an OpenDP development environment set up, including the ability to run tests in both Rust and Python.</p>
-<section id="install-rust">
-<h2>Install Rust<a class="headerlink" href="#install-rust" title="Permalink to this headline">#</a></h2>
-<p>Download Rust from the <a class="reference external" href="https://www.rust-lang.org">Rust website</a>.</p>
-</section>
-<section id="install-python">
-<h2>Install Python<a class="headerlink" href="#install-python" title="Permalink to this headline">#</a></h2>
-<p>Download Python from the <a class="reference external" href="https://www.python.org">Python website</a>.</p>
-</section>
+<ul class="simple">
+<li><p>Install the <a class="reference external" href="https://www.rust-lang.org/tools/install">Rust toolchain</a>.</p></li>
+<li><p>Install <a class="reference external" href="https://www.python.org">Python version 3.6 or higher</a>.</p></li>
+</ul>
 <section id="clone-the-opendp-repo">
 <h2>Clone the OpenDP Repo<a class="headerlink" href="#clone-the-opendp-repo" title="Permalink to this headline">#</a></h2>
-<p>If you don’t have write access to the OpenDP repository, you will either need to request to join the organization or make a fork.
+<p>If you want to submit PRs, but don’t have write access to the OpenDP repository, you will either need to request to join the organization or make a fork.
 <a class="reference external" href="https://docs.github.com/en/get-started/quickstart/fork-a-repo">The GitHub documentation explains forking</a>.</p>
 <p>Clone the repo (or your fork) and change into the <code class="docutils literal notranslate"><span class="pre">opendp</span></code> directory that’s created.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone git@github.com:opendp/opendp.git
@@ -474,76 +460,137 @@
 </div>
 </section>
 </section>
-<section id="building-opendp">
-<h1>Building OpenDP<a class="headerlink" href="#building-opendp" title="Permalink to this headline">#</a></h1>
-<p>Change to the <code class="docutils literal notranslate"><span class="pre">rust</span></code> directory before attempting a build, run the tests, and then return to the <code class="docutils literal notranslate"><span class="pre">opendp</span></code> directory.</p>
+<section id="build-opendp">
+<h1>Build OpenDP<a class="headerlink" href="#build-opendp" title="Permalink to this headline">#</a></h1>
+<p>Next, you’ll need to build the Rust binaries.
+This is done by running <code class="docutils literal notranslate"><span class="pre">cargo</span> <span class="pre">build</span></code> in the <code class="docutils literal notranslate"><span class="pre">rust</span></code> subdirectory of the repo.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> rust
 cargo build --features untrusted,bindings-python
-cargo <span class="nb">test</span> --features untrusted,bindings-python
-<span class="nb">cd</span> ..
 </pre></div>
 </div>
-<p>Features are optional. The <code class="docutils literal notranslate"><span class="pre">untrusted</span></code> feature includes non-secure floating-point and contrib features like <code class="docutils literal notranslate"><span class="pre">make_base_laplace</span></code>,
-and the <code class="docutils literal notranslate"><span class="pre">bindings-python</span></code> feature updates the python bindings when you build.</p>
-<p>Refer to the <a class="reference internal" href="developer-faq.html#developer-faq"><span class="std std-ref">Developer Frequently Asked Questions</span></a> if you run into compilation problems.</p>
+<p>This will compile a debug build of the OpenDP shared library, placing it in the directory <code class="docutils literal notranslate"><span class="pre">opendp/rust/target/debug</span></code>.
+(The specific name of the library file will vary depending on your platform.)</p>
+<p>Substitute <code class="docutils literal notranslate"><span class="pre">cargo</span> <span class="pre">build</span></code> with <code class="docutils literal notranslate"><span class="pre">cargo</span> <span class="pre">test</span></code>, <code class="docutils literal notranslate"><span class="pre">cargo</span> <span class="pre">doc</span></code> or <code class="docutils literal notranslate"><span class="pre">cargo</span> <span class="pre">check</span></code> to test, build rust documentation, or run a lightweight check that the code is valid.</p>
+<p>In the above command, the features <code class="docutils literal notranslate"><span class="pre">untrusted</span></code> and <code class="docutils literal notranslate"><span class="pre">bindings-python</span></code> are enabled.
+Setting a feature changes how the crate compiles:</p>
+<details style="margin:-1em 0 2em 2em">
+<summary><a>Feature List</a></summary><table class="colwidths-given table">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 75%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">untrusted</span></code></p></td>
+<td><p>Enables untrusted features <code class="docutils literal notranslate"><span class="pre">contrib</span></code> and <code class="docutils literal notranslate"><span class="pre">floating-point</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">contrib</span></code></p></td>
+<td><p>Enable to include constructors that have not passed the vetting process.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">floating-point</span></code></p></td>
+<td><p>Enable to include measurements with floating-point vulnerabilities.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">bindings-python</span></code></p></td>
+<td><p>Enables the <code class="docutils literal notranslate"><span class="pre">ffi</span></code> feature and regenerates sources in the python package.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ffi</span></code></p></td>
+<td><p>Enable to include C foreign function interfaces.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">use-system-libs</span></code></p></td>
+<td><p>Enable to use the system installation of MPFR.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">use-mpfr</span></code></p></td>
+<td><p>Already enabled. Use MPFR for exact floating-point arithmetic.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">use-openssl</span></code></p></td>
+<td><p>Already enabled. Use OpenSSL for secure noise generation.</p></td>
+</tr>
+</tbody>
+</table>
+</details><p>To make the crate compile faster, ffi functions in debug builds support a reduced set of primitive types.
+Release-mode builds support the full set of primitive types and undergo compiler optimizations, but take longer to compile.
+You can compile a release build by adding the <code class="docutils literal notranslate"><span class="pre">--release</span></code> flag.
+In contrast to debug builds, release builds are located in <code class="docutils literal notranslate"><span class="pre">opendp/rust/target/release</span></code>.
+To use a release-mode binary from the python bindings,
+set the environment variable <code class="docutils literal notranslate"><span class="pre">OPENDP_TEST_RELEASE=1</span></code> before importing OpenDP.</p>
+<p>If you run into compilation problems, please contact us!
+We also have a <a class="reference internal" href="developer-faq.html#developer-faq"><span class="std std-ref">Developer Frequently Asked Questions</span></a> with some common issues.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>There is a more involved <a class="reference external" href="https://github.com/opendp/opendp/tree/main/rust/windows">setup guide</a> for Windows users.
 You can compromise to simple and vulnerable builds instead, by adding the <code class="docutils literal notranslate"><span class="pre">--no-default-features</span></code> flag to cargo commands.
 Be advised this flag disables GMP’s exact float handling, as well as OpenSSL’s secure noise generation.</p>
 </div>
-<section id="install-python-dependencies">
-<h2>Install Python Dependencies<a class="headerlink" href="#install-python-dependencies" title="Permalink to this headline">#</a></h2>
-<p>Change to the <code class="docutils literal notranslate"><span class="pre">python</span></code> directory, create a Python virtual environment, activate it, install dependencies, and then install the Python OpenDP library itself.</p>
+<section id="python-setup">
+<h2>Python Setup<a class="headerlink" href="#python-setup" title="Permalink to this headline">#</a></h2>
+<p>You can install a local Python package that uses your new OpenDP binary.</p>
+<p>We recommend setting up a virtual environment first, but this is optional:</p>
+<details style="margin:-1em 0 2em 2em">
+<summary><a>Virtual Environment</a></summary><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># recommended. conda is just as valid</span>
+python3 -m venv opendp
+<span class="nb">source</span> opendp/bin/activate
+</pre></div>
+</div>
+</details><p>Change to the <code class="docutils literal notranslate"><span class="pre">python</span></code> directory, install dependencies, and then install the Python OpenDP library itself.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> python
-
-<span class="c1"># recommended. conda is just as valid</span>
-python3 -m venv venv
-<span class="nb">source</span> venv/bin/activate
 
 pip install flake8 pytest
 pip install -e .
 </pre></div>
 </div>
-<p>The <cite>-e</cite> flag is significant! It stands for “editable”, meaning you only have to run this command once.</p>
+<p>The <cite>-e</cite> flag is significant! It stands for “editable”, meaning you only have to run this command once.
+At this point, you should be able use OpenDP as a locally installed package.</p>
 </section>
 <section id="testing-python">
 <h2>Testing Python<a class="headerlink" href="#testing-python" title="Permalink to this headline">#</a></h2>
-<p>Run the tests from the <code class="docutils literal notranslate"><span class="pre">python</span></code> directory.</p>
+<p>You can test that things are working by running OpenDP’s python test suite, using <code class="docutils literal notranslate"><span class="pre">pytest</span></code>.
+Run the tests from the <code class="docutils literal notranslate"><span class="pre">python</span></code> directory.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest -v
 </pre></div>
 </div>
-<p>If pytest is not found, don’t forget to activate your virtual environment.</p>
+<p>If everything has gone well, you’ll see a bunch of output, then a line similar to this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><style type="text/css">
+span.prompt1:before {
+  content: "$ ";
+}
+</style><span class="prompt1"><span class="o">==================</span> <span class="m">57</span> passed <span class="k">in</span> <span class="m">1</span>.02s <span class="o">==================</span></span>
+</pre></div></div><p>If pytest is not found, don’t forget to activate your virtual environment!</p>
+<p>This is just a quick overview of building OpenDP.
+If you’re interested in porting OpenDP to a different platform, we’d be delighted to get your help; please <a class="reference internal" href="../contact.html"><span class="doc">contact us</span></a>!</p>
 </section>
 </section>
 <section id="documentation">
 <h1>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">#</a></h1>
-<p>The source for this documentation can be found in the “docs” directory at <a class="reference external" href="https://github.com/opendp/opendp">https://github.com/opendp/opendp</a></p>
+<p>The source for this documentation website can be found in the “docs” directory at <a class="reference external" href="https://github.com/opendp/opendp">https://github.com/opendp/opendp</a></p>
 <section id="building-the-docs">
 <h2>Building the Docs<a class="headerlink" href="#building-the-docs" title="Permalink to this headline">#</a></h2>
 <p>The docs are built using Sphinx and the steps are listed in the README in the “docs” directory.</p>
 </section>
 </section>
-<section id="tooling">
-<h1>Tooling<a class="headerlink" href="#tooling" title="Permalink to this headline">#</a></h1>
+<section id="developer-tooling">
+<h1>Developer Tooling<a class="headerlink" href="#developer-tooling" title="Permalink to this headline">#</a></h1>
 <p>There are many development environments that work with Rust. Here are a few:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer">VS Code</a></p></li>
 <li><p><a class="reference external" href="https://plugins.jetbrains.com/plugin/8182-rust">Intellij IDEA</a></p></li>
 <li><p><a class="reference external" href="https://github.com/rust-lang/rust-enhanced">Sublime</a></p></li>
 </ul>
-<p>Use whatever developer tooling you are comfortable with.</p>
+<p>Use whatever tooling you are comfortable with.</p>
 <p>A few notes on VS Code:</p>
 <ul class="simple">
 <li><p>Be sure to install the <a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer">rust-analyzer</a> plugin, not the rust plugin</p></li>
 <li><p>Open <code class="docutils literal notranslate"><span class="pre">rust-analyzer</span></code>’s extension settings, search “features” and add <code class="docutils literal notranslate"><span class="pre">&quot;untrusted&quot;,</span> <span class="pre">&quot;bindings-python&quot;</span></code></p></li>
 <li><p>Look for <code class="docutils literal notranslate"><span class="pre">Problems</span></code> in the bottom panel for live compilation errors as you work</p></li>
-<li><p>Other useful extensions are “Better Toml”, “crates” and “LaTex Workshop”.</p></li>
+<li><p>Other useful extensions are “Better Toml”, “crates” and “LaTex Workshop”</p></li>
 <li><p>Starter json configurations:</p></li>
 </ul>
 <details style="margin:-1em 0 2em 4em">
 <summary><a>Expand Me</a></summary><p>Starter <code class="docutils literal notranslate"><span class="pre">/.vscode/tasks.json</span></code>.
-These tasks can be used to directly build OpenDP.
+These tasks can be used to directly build or test OpenDP.
 <a class="reference external" href="https://code.visualstudio.com/docs/editor/tasks">See also the VSCode documentation on tasks.</a></p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2.0.0&quot;</span><span class="p">,</span><span class="w"></span>
@@ -555,7 +602,8 @@ These tasks can be used to directly build OpenDP.
 <span class="w">                </span><span class="s2">&quot;$rustc&quot;</span><span class="w"></span>
 <span class="w">            </span><span class="p">],</span><span class="w"></span>
 <span class="w">            </span><span class="nt">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
-<span class="w">                </span><span class="s2">&quot;--manifest-path=./rust/Cargo.toml&quot;</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;--manifest-path=./rust/Cargo.toml&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;--features&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;untrusted&quot;</span><span class="w"></span>
 <span class="w">            </span><span class="p">],</span><span class="w"></span>
 <span class="w">            </span><span class="nt">&quot;group&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;build&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">            </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rust: cargo build&quot;</span><span class="p">,</span><span class="w"></span>
@@ -575,6 +623,22 @@ These tasks can be used to directly build OpenDP.
 <span class="w">            </span><span class="p">],</span><span class="w"></span>
 <span class="w">            </span><span class="nt">&quot;group&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;build&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">            </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rust: cargo build ffi&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;presentation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="nt">&quot;clear&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cargo&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;problemMatcher&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;$rustc&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">],</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;--manifest-path=./rust/Cargo.toml&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="s2">&quot;--features&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;bindings-python untrusted&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">],</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;group&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;build&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rust: cargo test ffi&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">            </span><span class="nt">&quot;presentation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">                </span><span class="nt">&quot;clear&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"></span>
 <span class="w">            </span><span class="p">}</span><span class="w"></span>
@@ -631,7 +695,7 @@ This configuration emits outputs into <code class="docutils literal notranslate"
 </div>
 </details><p>A few notes on Intellij IDEA:</p>
 <ul class="simple">
-<li><p>Both the Intellij IDEA community edition and the CodeWithMe plugin are free</p></li>
+<li><p>Both Intellij IDEA community edition and the CodeWithMe plugin are free</p></li>
 <li><p>Be sure to open the project at the root of the git repository</p></li>
 <li><p>Be sure to install the Python and Rust plugins for interactivity</p></li>
 <li><p>Be sure to “attach” the Cargo.toml in the red banner the first time you open a Rust source file</p></li>
